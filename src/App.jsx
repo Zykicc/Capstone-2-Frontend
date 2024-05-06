@@ -1,16 +1,11 @@
-import { useState } from "react";
-import CallApi from "./CallApi";
+import LifeWasted from "./LifeWasted";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <CallApi />
-      </div>
-    </>
+    <div>
+      <LifeWasted />
+    </div>
   );
 }
 
