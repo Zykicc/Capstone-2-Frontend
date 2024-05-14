@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { accomplishments } from "../../data";
+import Message from "./Message";
 
 function WastedPotential({ top5Games, totalPlayTime }) {
+  const [image, setImage] = useState(accomplishments[0].img);
+
   function compareHoursRequired(a, b) {
     if (a.hours_required < b.hours_required) {
       return -1;
@@ -12,8 +15,13 @@ function WastedPotential({ top5Games, totalPlayTime }) {
     return 0;
   }
   return (
-    <div>
-      {totalPlayTime && top5Games.length > 0 && <h1>Wasted Potential</h1>}
+    <div className="wasted-wrapper">
+      {totalPlayTime && top5Games.length > 0 && <h1 className="wastedPotential-title">Wasted Potential</h1>}
+      {totalPlayTime && top5Games.length > 0 && (
+        <div className="mesageGif-wrapper">
+          <img className="mesageGif-img" src={image} />
+        </div>
+      )}
       {totalPlayTime &&
         top5Games.length > 0 &&
         accomplishments
@@ -21,9 +29,14 @@ function WastedPotential({ top5Games, totalPlayTime }) {
           .sort(compareHoursRequired)
           .map((data, index) => {
             return (
-              <p key={index}>
-                {data.message(Math.floor(totalPlayTime / data.hours_required))}
-              </p>
+              <Message
+                key={index}
+                message={data.message(
+                  Math.floor(totalPlayTime / data.hours_required)
+                )}
+                imgUrl={data.img}
+                setImage={setImage}
+              />
             );
           })}
     </div>

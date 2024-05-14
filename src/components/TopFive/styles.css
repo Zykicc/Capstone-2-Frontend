@@ -18,10 +18,12 @@
   transition: 0.3s;
   border: 1px solid rgb(104, 104, 104);
   margin: 0.5rem;
+  background-color: #171a21;
+
 }
 
 .topFive-card:hover {
-  box-shadow: 0 10px 50px 0 rgba(226, 226, 226, 0.2);
+  box-shadow: 0 0px 20px 0 rgba(255, 255, 255, 0.918);
   transform: scale(1.15);
   cursor: pointer;
 }
@@ -48,4 +50,19 @@
   display: flex;
   justify-content: center;
   flex-direction: row;
+}
+@media (max-width: 800px) {
+  .topFive-card {
+    height: 80px;
+    width: 370px;
+  }
+
+  .topFive-img {
+    height: 80px;
+    width: auto;
+  }
+
+  .topFive-hours {
+    font-size: 13px;
+  }
 }

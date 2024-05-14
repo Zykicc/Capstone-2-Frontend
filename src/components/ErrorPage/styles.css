@@ -1,0 +1,42 @@
+.container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-family: "Tomorrow", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.text {
+  position: relative;
+  top: 10%;
+  color: #fff;
+  text-align: center;
+}
+.astronaut img {
+  width: 100px;
+  position: relative;
+  top: 55%;
+  animation: astronautFly 6s infinite linear;
+}
+@keyframes astronautFly {
+  0% {
+    left: -100px;
+  }
+  25% {
+    top: 50%;
+    transform: rotate(30deg);
+  }
+  50% {
+    transform: rotate(45deg);
+    top: 55%;
+  }
+  75% {
+    top: 60%;
+    transform: rotate(30deg);
+  }
+  100% {
+    left: 110%;
+    transform: rotate(45deg);
+  }
+}

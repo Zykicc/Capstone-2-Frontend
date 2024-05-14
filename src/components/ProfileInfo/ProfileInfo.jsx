@@ -27,9 +27,17 @@ function ProfileInfo({ profileData }) {
       <div className="profileInfo-info">
         <div id="info-col1">
           <h2 className="profileInfo-name">{profileData.profileName}</h2>
-          <a className="profileInfo-link" href={profileData.profileURL}>
-            link to profile
-          </a>
+
+          <img
+            onClick={(e) => {
+              window.open(profileData.profileURL, "_blank").focus();
+            }}
+            className="svg-icon"
+            src="https://www.svgrepo.com/show/510970/external-link.svg"
+            alt=""
+            width="30"
+            height="30"
+          />
         </div>
         <div id="info-col3">
           <span>Status: {onlineStatus(profileData.status)}</span>

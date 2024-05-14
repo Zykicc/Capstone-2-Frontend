@@ -1,4 +1,5 @@
 .profileInfo {
+  background-color: #171a21;
   height: 200px;
   width: 700px;
   display: flex;
@@ -22,10 +23,20 @@
   margin: 1rem;
 }
 
+.svg-icon {
+  margin-left: 0.5rem;
+}
+
+.svg-icon:hover {
+  box-shadow: 0 0px 10px 0 rgba(0, 162, 255, 0.74);
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 #info-col1 {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
 }
 
 #info-col2 {
@@ -35,4 +46,11 @@
 
 #info-col4 {
   margin-top: 1rem;
+}
+
+@media (max-width: 800px) {
+  .profileInfo {
+    height: 170px;
+  width: 350px;
+  }
 }

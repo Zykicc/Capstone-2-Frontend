@@ -4,6 +4,8 @@ import { accomplishments } from "./data";
 import ProfileInfo from "./components/ProfileInfo/ProfileInfo";
 import TopFive from "./components/TopFive/TopFive";
 import WastedPotential from "./components/WastedPotential/WastedPotential";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
+import Loading from "./components/Loading/Loading";
 import Odometer from "react-odometerjs";
 
 function LifeWasted() {
@@ -11,12 +13,18 @@ function LifeWasted() {
   const [totalPlayTime, setTotalPlayTime] = useState(null);
   const [profileData, setProfileData] = useState({});
   const [top5Games, setTop5Games] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async (steamId) => {
     let result = await fetch(`http://localhost:3000/getOwnedGames/${steamId}`, {
       method: "GET",
     });
+
     result = await result.json();
+    if (result.status == 400) {
+      return result.message;
+    }
     const allGames = result?.response?.games;
     return allGames;
   };
@@ -83,52 +91,102 @@ function LifeWasted() {
   };
 
   const getPlayerData = async (steamId) => {
-    const gameList = await fetchData(steamIdInput);
+    setLoading(true);
+    const gameList = await fetchData(steamId);
+    if (typeof gameList == "string") {
+      setError(gameList);
+    } else {
+      setError(null);
+      const profileData = await fetchProfileData(steamId);
+      setProfileData(profileData);
 
-    const profileData = await fetchProfileData(steamIdInput);
-    setProfileData(profileData);
+      const totalTime = calcTotalPlayTime(gameList);
+      setTotalPlayTime(totalTime / 60);
 
-    const totalTime = calcTotalPlayTime(gameList);
-    setTotalPlayTime(totalTime / 60);
+      const topFive = getTopFiveGames(gameList);
 
-    const topFive = getTopFiveGames(gameList);
-
-    let top5Games = [];
-    for (let game of topFive) {
-      const gameInfo = await fetchGameData(game);
-      top5Games.push(gameInfo);
+      let top5Games = [];
+      for (let game of topFive) {
+        const gameInfo = await fetchGameData(game);
+        top5Games.push(gameInfo);
+      }
+      setTop5Games(top5Games);
     }
-    setTop5Games(top5Games);
-    // console.log(topFive);
+    setLoading(false);
   };
 
   return (
     <div className="lifeWasted">
       {/* <h2>Enter Steam Id</h2> */}
-
+      <h1>Steam Hours</h1>
+      <img
+        className="steamLogo"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/2048px-Steam_icon_logo.svg.png"
+      ></img>
       <div className="lifeWasted-input-wrapper">
-        <input
-          className="lifeWasted-input"
-          type="text"
-          placeholder="Enter Steam ID"
-          value={steamIdInput}
-          onChange={(e) => setSteamIdInput(e.target.value)}
-        />
+        <div className="input-btn">
+          <input
+            className="lifeWasted-input"
+            type="text"
+            placeholder="Enter Steam ID"
+            value={steamIdInput}
+            onChange={(e) => setSteamIdInput(e.target.value)}
+          />
+          <button
+            className="lifeWasted-button"
+            onClick={() => getPlayerData(steamIdInput)}
+          >
+            Enter
+          </button>
+        </div>
         <button
-          className="lifeWasted-button"
-          onClick={() => getPlayerData(steamIdInput)}
+          className="lifeWasted-button topWasted"
+          onClick={() => getPlayerData("76561197960372450")}
         >
-          Enter
+          Check Top Wasted Life
         </button>
       </div>
-      <span className="hoursWasted">
-        {totalPlayTime ? Math.floor(totalPlayTime) + " Hours Wasted!" : ""}
-      </span>
-      {Object.keys(profileData).length > 0 && (
-        <ProfileInfo profileData={profileData} />
+      {loading && <Loading />}
+      {error ? (
+        <ErrorPage error={error} />
+      ) : (
+        <>
+          <span className="hoursWasted">
+            {totalPlayTime ? Math.floor(totalPlayTime) + " Hours Wasted!" : ""}
+          </span>
+
+          {totalPlayTime && Math.floor(totalPlayTime * 0.000114155) > 0 ? (
+            <p className="timeSpent">
+              {" "}
+              {"You spent " +
+                Math.floor(totalPlayTime * 0.000114155) +
+                " YEAR(S) of your life playing games on steam"}{" "}
+            </p>
+          ) : (
+            ""
+          )}
+
+          {Math.floor(totalPlayTime * 0.000114155) < 1 && totalPlayTime ? (
+            <p className="timeSpent">
+              {" "}
+              {"You spent " +
+                Math.floor(totalPlayTime * 0.00136986) +
+                " MONTH(S) of your life playing games on steam "}{" "}
+            </p>
+          ) : (
+            ""
+          )}
+
+          {Object.keys(profileData).length > 0 && (
+            <ProfileInfo profileData={profileData} />
+          )}
+          <TopFive top5Games={top5Games} />
+          <WastedPotential
+            top5Games={top5Games}
+            totalPlayTime={totalPlayTime}
+          />
+        </>
       )}
-      <TopFive top5Games={top5Games} />
-      <WastedPotential top5Games={top5Games} totalPlayTime={totalPlayTime} />
     </div>
   );
 }

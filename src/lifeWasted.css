@@ -14,6 +14,12 @@
   font-size: 50px;
 }
 
+.steamLogo {
+  margin-bottom: -4rem;
+  height: 200px;
+  width: 200px;
+}
+
 .lifeWasted-input {
   width: 350px;
   height: 150px;
@@ -75,4 +81,38 @@
 .lifeWasted-button:hover {
   border-color: #666666;
   background: #292929;
+}
+
+.topWasted {
+  border-radius: 30px;
+}
+
+
+
+@media (max-width: 800px) {
+  .lifeWasted-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .input-btn {
+    display: flex;
+    flex-direction: row;
+  }
+   
+
+  .lifeWasted-input {
+    width: 200px;
+    height: 45px;
+  }
+
+  .hoursWasted {
+    margin: 1rem;
+    font-size: 30px;
+  }
+
+  .timeSpent {
+    font-size: 12px;
+  }
 }
