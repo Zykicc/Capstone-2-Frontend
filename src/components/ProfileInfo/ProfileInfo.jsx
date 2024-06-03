@@ -1,4 +1,3 @@
-import React from "react";
 import moment from "moment";
 import "./styles.css";
 
@@ -29,7 +28,7 @@ function ProfileInfo({ profileData }) {
           <h2 className="profileInfo-name">{profileData.profileName}</h2>
 
           <img
-            onClick={(e) => {
+            onClick={() => {
               window.open(profileData.profileURL, "_blank").focus();
             }}
             className="svg-icon"

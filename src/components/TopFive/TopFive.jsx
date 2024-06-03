@@ -1,4 +1,3 @@
-import React from "react";
 import "./styles.css";
 
 function TopFive({ top5Games }) {
@@ -10,8 +9,9 @@ function TopFive({ top5Games }) {
       {top5Games.map((game, index) => {
         return (
           <div
+            key={index}
             className="topFive-card"
-            onClick={(e) => {
+            onClick={() => {
               window
                 .open(
                   `https://store.steampowered.com/app/${game.appID}`,
@@ -20,7 +20,7 @@ function TopFive({ top5Games }) {
                 .focus();
             }}
           >
-            <p key={index}>
+            <div key={index}>
               <div className="topFive-infoWrap">
                 <img className="topFive-img" src={game.image} alt="" />
                 <div className="topFive-hours">
@@ -28,7 +28,7 @@ function TopFive({ top5Games }) {
                   <span> : {Math.floor(game.playTime / 60)} Hours</span>
                 </div>
               </div>
-            </p>
+            </div>
           </div>
         );
       })}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { accomplishments } from "../../data";
 import Message from "./Message";
 

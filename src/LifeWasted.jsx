@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./lifeWasted.css";
-import { accomplishments } from "./data";
 import ProfileInfo from "./components/ProfileInfo/ProfileInfo";
 import TopFive from "./components/TopFive/TopFive";
 import WastedPotential from "./components/WastedPotential/WastedPotential";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Loading from "./components/Loading/Loading";
-import Odometer from "react-odometerjs";
+
+const backendUrl = "https://steam-hours-backend.onrender.com"; 
 
 function LifeWasted() {
-  const [steamIdInput, setSteamIdInput] = useState("76561199005985110");
+  const [steamIdInput, setSteamIdInput] = useState("");
   const [totalPlayTime, setTotalPlayTime] = useState(null);
   const [profileData, setProfileData] = useState({});
   const [top5Games, setTop5Games] = useState([]);
@@ -17,7 +17,7 @@ function LifeWasted() {
   const [loading, setLoading] = useState(false);
 
   const fetchData = async (steamId) => {
-    let result = await fetch(`http://localhost:3000/getOwnedGames/${steamId}`, {
+    let result = await fetch(`${backendUrl}/getOwnedGames/${steamId}`, {
       method: "GET",
     });
 
@@ -31,7 +31,7 @@ function LifeWasted() {
 
   const fetchGameData = async (playerGameInfo) => {
     const appId = playerGameInfo.appid;
-    let result = await fetch(`http://localhost:3000/getGameInfo/${appId}`, {
+    let result = await fetch(`${backendUrl}/getGameInfo/${appId}`, {
       method: "GET",
     });
     result = await result.json();
@@ -46,7 +46,7 @@ function LifeWasted() {
 
   const fetchProfileData = async (steamId) => {
     let result = await fetch(
-      `http://localhost:3000/getProfileData/${steamId}`,
+      `${backendUrl}/getProfileData/${steamId}`,
       {
         method: "GET",
       }
