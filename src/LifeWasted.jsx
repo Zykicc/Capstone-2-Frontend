@@ -17,10 +17,15 @@ function LifeWasted() {
   const [loading, setLoading] = useState(false);
 
   const fetchData = async (steamId) => {
-    let result = await fetch(`${backendUrl}/getOwnedGames/${steamId}`, {
-      method: "GET",
-    });
-
+    let result = ''
+    try {
+       result = await fetch(`${backendUrl}/getOwnedGames/${steamId}`, {
+        method: "GET",
+      });
+    } catch(e) {
+      return "Failed to get response from server.";
+    }
+    
     result = await result.json();
     if (result.status == 400) {
       return result.message;
