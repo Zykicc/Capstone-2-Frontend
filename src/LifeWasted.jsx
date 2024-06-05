@@ -35,10 +35,16 @@ function LifeWasted() {
   };
 
   const fetchGameData = async (playerGameInfo) => {
+    let result = ''
     const appId = playerGameInfo.appid;
-    let result = await fetch(`${backendUrl}/getGameInfo/${appId}`, {
+    try{
+    result = await fetch(`${backendUrl}/getGameInfo/${appId}`, {
       method: "GET",
     });
+    } catch(e) {
+      return "Failed to get response from server.";
+    }
+    
     result = await result.json();
     const gameinfo = result?.[appId]?.data;
     return {
@@ -50,12 +56,18 @@ function LifeWasted() {
   };
 
   const fetchProfileData = async (steamId) => {
-    let result = await fetch(
-      `${backendUrl}/getProfileData/${steamId}`,
-      {
-        method: "GET",
-      }
-    );
+    let result = ''
+    try{
+      result = await fetch(
+        `${backendUrl}/getProfileData/${steamId}`,
+        {
+          method: "GET",
+        }
+      );
+    } catch(e) {
+      return "Failed to get response from server.";
+    }
+    
     result = await result.json();
     const profileData = result?.response?.players[0];
     return {

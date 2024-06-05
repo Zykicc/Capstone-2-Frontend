@@ -25,7 +25,7 @@ export const accomplishments = [
     name: "Completing a college degree",
     message: (num) => `You could have completed ${num} college degrees`,
     hours_required: 3500,
-    img: "src/assets/graduation.gif",
+    img: "https://media.giphy.com/media/3oEduUGL2JaSK7oS76/giphy.gif?cid=790b76115l83by5vdfeh3oszd1jk6l6qjknyqr3cg3yz22k9&ep=v1_gifs_search&rid=giphy.gif&ct=g",
   },
   {
     name: "Achieving a high level of proficiency in a sport",
